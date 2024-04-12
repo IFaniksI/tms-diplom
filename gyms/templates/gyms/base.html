@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Polls APP{% endblock %}</title>
+</head>
+
+
+<body>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p class="message">{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+
+    <header>
+        <div>
+            <ul>
+                <li>
+                    <a href="/" >Главная страница</a>
+                </li>
+                <li>
+                    <a href="{% url 'gyms:index' %}" id="menu">Спортзалы</a>
+                </li>
+                <li>
+                   <a href="/" id="menu">Тренера</a>
+                </li>
+                <li>
+                   <a href="/" id="menu">Галерея</a>
+                </li>
+                <li>
+                    <a href="/" id="menu">Блог</a>
+                </li>
+                <li>
+                    <a href="/" id="menu">Отзывы</a>
+                </li>
+                <li>
+                    <a href="/admin/" id="menu">Админ</a>
+                </li>
+            </ul>
+        </div>
+        <div>
+            <form action="{% url 'gyms:index' %}" method="get">
+            <input class="search" type="text" name="search" placeholder="Search">
+                <button type="submit">Search</button>
+        </form>
+        </div>
+        <div>
+            <a href="/login/" id="menu">Логин</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="item"></div>
+        <div class="item-center">{% block body %}{% endblock %}</div>
+        <div class="item"></div>
+    </main>
+
+</body>
+
+<style>
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    ul > li {
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: #27263D;
+    }
+
+    main {
+        display: flex;
+    }
+
+    .item {
+        height: 90vh;
+        width: 100vh;
+    }
+
+    .item-center {
+        flex-grow: 1;
+    }
+
+    {% block style %}{% endblock %}
+
+    * {
+        text-decoration: none;
+    }
+
+    body {
+        margin: 0;
+        background: #1A1A1D;
+        color: #C9A66B;
+        text-align: center;
+    }
+
+    a:visited {
+        color: white;
+    }
+
+    a:link {
+        color: white;
+    }
+
+    a:hover {
+        color: #AFD275;
+    }
+
+    button {
+        background: #C9A66B;
+        border: none;
+        border-radius: 3px;
+        font-weight: 550;
+    }
+
+    button:hover {
+        background: #AFD275;
+        border: none;
+        border-radius: 3px;
+        font-weight: 550;
+    }
+
+    #button{
+        padding: 3px;
+        color: black;
+        background: #C9A66B;
+        border-radius: 3px;
+        font-weight: 550;
+    }
+
+    #button:hover {
+        padding: 3px;
+        color: black;
+        background: #AFD275;
+        border-radius: 3px;
+        font-weight: 550;
+    }
+
+    .message {
+        color: #AFD275;
+        text-align: center;
+        font-weight: 700;
+    }
+</style>
+
+</html>
