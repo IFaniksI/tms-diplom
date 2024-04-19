@@ -34,10 +34,13 @@ def register(request):
 def profile(request):
     # profile: Profile = Profile.objects.get(user=request.user).first()
     profile = request.user.profile
-    permission = Permission.objects.filter(profile=profile) \
+    permission_1 = Permission.objects.filter(profile=profile, service_name='Тренажерный зал') \
         .order_by('-subscription_end_date') \
         .first()
-    context = {'profile': profile, 'permission': permission}
+    permission_2 = Permission.objects.filter(profile=profile, service_name='Кроссфит') \
+        .order_by('-subscription_end_date') \
+        .first()
+    context = {'profile': profile, 'permission_1': permission_1, 'permission_2': permission_2}
     return render(request, 'users/profile.html', context)
 
 
