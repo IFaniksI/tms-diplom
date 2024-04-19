@@ -1,0 +1,32 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    <div>
+        {% if form.errors %}
+            <p>Your username and password didn't mathc. Please try again.</p>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <meta http-equiv="refresh" content="0;
+            URL=https://static.wikia.nocookie.net/45dd5bcc-e1db-4b98-a405-137ca58b1ef9/scale-to-width/755"/>
+        {% else %}
+            <div>
+                <h1>Authorization</h1>
+                <form action="{% url 'users:login' %}?next={{ next }}" method="post">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        {{ field.label_tag }}<br>
+                        {{ field }}<p>
+                    {% endfor %}
+                    <input type="submit" value="Login" id="button">
+
+                    {% if next is '/users/register/' or next is '/users/login/'%}
+                        {% url '' as next %}
+                    {% endif %}
+
+                </form>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}

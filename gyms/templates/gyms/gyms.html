@@ -1,0 +1,16 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    {% if gym_list %}
+        <h1> Спортзалы </h1>
+        {% for gym in gym_list %}
+            <a href="{% url 'gyms:gyms_details' gym.id %}">
+                <img src="https://koloro.ua/public/files/images/content/5a467451c5c18.jpg" width="1000vh" height="600vw"/>
+                <h1 style="margin: 5px"> {{ gym.name }}</h1>
+                <p style="margin: 0 0 50px 0"> {{ gym.Address }}</p>
+            </a>
+        {% endfor %}
+    {% else %}
+        <p>No articles are available.</p>
+    {% endif %}
+{% endblock %}

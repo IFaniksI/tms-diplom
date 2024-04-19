@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>{% block title %}Polls APP{% endblock %}</title>
+    <title>Sports Club</title>
 </head>
 
 
 <body>
-
-    {% if messages %}
-        {% for message in messages %}
-            <p class="message">{{ message }}</p>
-        {% endfor %}
-    {% endif %}
 
     <header>
         <div>
@@ -20,39 +14,56 @@
                     <a href="/" >Главная страница</a>
                 </li>
                 <li>
-                    <a href="{% url 'gyms:index' %}" id="menu">Спортзалы</a>
+                    <a href="{% url 'gyms:gyms' %}">Спортзалы</a>
                 </li>
                 <li>
-                   <a href="/" id="menu">Тренера</a>
+                   <a href="{% url 'gyms:trainer' %}">Тренеры</a>
                 </li>
                 <li>
-                   <a href="/" id="menu">Галерея</a>
+                    <a href="{% url 'gyms:service' %}">Услуги</a>
                 </li>
                 <li>
-                    <a href="/" id="menu">Блог</a>
+                   <a href="{% url 'gyms:gyms' %}">Галерея</a>
                 </li>
                 <li>
-                    <a href="/" id="menu">Отзывы</a>
+                    <a href="{% url 'articles:index' %}">Блог</a>
                 </li>
                 <li>
-                    <a href="/admin/" id="menu">Админ</a>
+                    <a href="{% url 'gyms:gyms' %}">Отзывы</a>
+                </li>
+                <li>
+                    <a href="/admin/">Админ</a>
                 </li>
             </ul>
         </div>
         <div>
-            <form action="{% url 'gyms:index' %}" method="get">
-            <input class="search" type="text" name="search" placeholder="Search">
-                <button type="submit">Search</button>
-        </form>
+            <form action="{% url 'gyms:gyms' %}" method="get">
+                {% csrf_token %}
+                <input class="search" type="text" name="search" placeholder="Search">
+                    <button type="submit" id="button">Search</button>
+            </form>
         </div>
         <div>
-            <a href="/login/" id="menu">Логин</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'users:profile' %}">{{ user.username }}</a>
+            {% else %}
+                <a href="{% url 'users:login' %}?next={{ request.path }}"> Логин </a>
+                <a href="{% url 'users:register' %}?next={{ request.path }}"> Регистрация </a>
+            {% endif %}
         </div>
     </header>
 
     <main>
         <div class="item"></div>
-        <div class="item-center">{% block body %}{% endblock %}</div>
+        <div class="item-center">
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="message">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+
+            {% block body %}Hello World!{% endblock %}
+        </div>
         <div class="item"></div>
     </main>
 
@@ -113,36 +124,6 @@
 
     a:hover {
         color: #AFD275;
-    }
-
-    button {
-        background: #C9A66B;
-        border: none;
-        border-radius: 3px;
-        font-weight: 550;
-    }
-
-    button:hover {
-        background: #AFD275;
-        border: none;
-        border-radius: 3px;
-        font-weight: 550;
-    }
-
-    #button{
-        padding: 3px;
-        color: black;
-        background: #C9A66B;
-        border-radius: 3px;
-        font-weight: 550;
-    }
-
-    #button:hover {
-        padding: 3px;
-        color: black;
-        background: #AFD275;
-        border-radius: 3px;
-        font-weight: 550;
     }
 
     .message {

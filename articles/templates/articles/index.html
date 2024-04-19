@@ -1,0 +1,15 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    {% if articles_list %}
+        <h1>Блог о спорте</h1>
+            {% for article in articles_list|dictsort:'title' %}
+                <a href="{% url 'articles:detail' article.id %}">
+                    <img src="https://gas-kvas.com/grafic/uploads/posts/2023-10/1696418579_gas-kvas-com-p-kartinki-o-sporte-37.jpg" width="800vh" height="600vw"/>
+                    <h3 style="margin: 0 0 50px 0"> {{ article.title }}</h3>
+                </a>
+            {% endfor %}
+    {% else %}
+        <p>No articles are available.</p>
+    {% endif %}
+{% endblock %}

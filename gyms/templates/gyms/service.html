@@ -1,0 +1,16 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    {% if service_list %}
+        <h1> Услуги </h1>
+        {% for service in service_list %}
+            <a href="{% url 'gyms:service_details' %}">
+                <img src="https://arena-swim.ru/wp-content/uploads/b/b/9/bb9e699be3327a238438c14509aafc35.jpeg" width="1000vh" height="600vw"/>
+                <h1 style="margin: 5px"> {{ service.name }}</h1>
+                <p style="margin: 0 0 50px 0"> {{ service.description }}</p>
+            </a>
+        {% endfor %}
+    {% else %}
+        <p>No articles are available.</p>
+    {% endif %}
+{% endblock %}

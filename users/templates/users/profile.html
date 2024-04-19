@@ -1,0 +1,15 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    <div style="width: 1000px">
+        <h1>Личные данные</h1>
+        <h2> Ваш логин | {{ profile.user.username|default:"Пусто" }}</h2>
+        <h2>Имя фамилия | {{ profile.user.first_name }} {{ profile.user.last_name|default:"Пусто" }}</h2>
+        <h2>Почта | {{ profile.user.email|default:"Пусто" }}</h2>
+        <h3> Абонемент в тренажерный зал до {{ permission.subscription_end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
+    </div>
+    <form action="{% url 'users:logout' %}?next={{ '/' }}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Выйти" class="button">
+    </form>
+{% endblock %}

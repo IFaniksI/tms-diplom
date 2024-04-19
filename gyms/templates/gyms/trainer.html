@@ -1,0 +1,35 @@
+{% extends 'gyms/base.html' %}
+
+{% block style %}
+    .grid {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .grid > div {
+        flex: 0 32%;
+        height="300vw";
+        margin-bottom: 10px;
+    }
+{% endblock %}
+
+{% block body %}
+    {% if trainer_list %}
+        <h1> Тренеры </h1>
+        <div class="grid">
+            {% for trainer in trainer_list %}
+                <div>
+                    <a href="{% url 'gyms:trainer_details' trainer.id %}">
+                        <img src="https://hips.hearstapps.com/hmg-prod/images/esq040124robertdowneyjrdig-011-660ece7727c8f.jpg?resize=980:*" width="250vh" height="300vw"/>
+                        <h2 style="margin: 5px"> {{ trainer.first_name }} {{ trainer.last_name  }} </h2>
+                        <p style="margin: 0 0 50px 0"> Тренер спортклуба {{ trainer.gym.name }} </p>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No articles are available.</p>
+    {% endif %}
+{% endblock %}
