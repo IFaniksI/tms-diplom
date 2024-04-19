@@ -58,11 +58,21 @@ def subscription_view(request, subscription_id):
     test = date(next_month.year, next_month.month, next_month.day)
 
     permission = Permission.objects.filter(service_name=subscription.service.name, profile=profile).first()
-    if permission:
-        permission.subscription_end_date += relativedelta(months=1) if subscription.subscription_period == 30 else relativedelta(days=7)
-        permission.save()
-    else:
-        Permission.objects.create(profile=profile, service_name=subscription.service.name, subscription_end_date=test)
+
+    if not permission:
+        permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
+                                               subscription_end_date=date.today())
+
+    match subscription.subscription_period:
+        case 7:
+            permission.subscription_end_date += relativedelta(days=7)
+        case 30:
+            permission.subscription_end_date += relativedelta(months=1)
+        case 180:
+            permission.subscription_end_date += relativedelta(months=6)
+        case 360:
+            permission.subscription_end_date += relativedelta(months=12)
+    permission.save()
 
     messages.success(
         request, f'Вы успешно продлили абонемент: {subscription.service.name}')

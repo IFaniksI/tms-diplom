@@ -34,3 +34,6 @@ class Subscription(models.Model):
     description = models.TextField()
     subscription_period = models.IntegerField(default=0)
     price = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.service.name} - {self.name}'
