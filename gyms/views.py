@@ -11,19 +11,34 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 def gyms(request: HttpRequest):
     search_query = request.GET.get('search', '')
-    context = Gym.objects.filter(name__icontains=search_query) if search_query else Gym.objects.all()
+    context = Gym.objects.filter(Q(name__icontains=search_query) | Q(address__icontains=search_query)) if search_query \
+        else Gym.objects.all()
+
+    paginator = Paginator(context, 5)
+
+    page = request.GET.get('page')
+    objects = paginator.get_page(page)
+
     return render(request, 'gyms/gyms.html', {
-        'gym_list': context})
+        'gym_list': objects})
 
 
 def trainer(request: HttpRequest):
-    context = Trainer.objects.all()
+    objects_list = Trainer.objects.all()
+    paginator = Paginator(objects_list, 5)
+
+    page = request.GET.get('page')
+    objects = paginator.get_page(page)
+
     return render(request, 'gyms/trainer.html', {
-        'trainer_list': context})
+        'trainer_list': objects})
 
 
 def gyms_details(request, gym_id):

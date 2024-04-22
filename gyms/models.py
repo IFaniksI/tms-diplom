@@ -5,8 +5,8 @@ from django.db import models
 class Gym(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
-    Address = models.CharField(max_length=50)
-    Contacts = models.TextField()
+    address = models.CharField(max_length=50)
+    contacts = models.TextField()
 
     def __str__(self):
         return self.name

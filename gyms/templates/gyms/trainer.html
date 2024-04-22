@@ -18,6 +18,21 @@
 {% block body %}
     {% if trainer_list %}
         <h1> Тренеры </h1>
+
+        <span>
+            {% if trainer_list.has_previous %}
+                <a href="?page={{ trainer_list.previous_page_number }}">предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                {{ trainer_list.number }} из {{ trainer_list.paginator.num_pages }}
+            </span>
+
+            {% if trainer_list.has_next %}
+                <a href="?page={{ trainer_list.next_page_number }}">следующая</a>
+            {% endif %}
+        </span>
+
         <div class="grid">
             {% for trainer in trainer_list %}
                 <div>
