@@ -7,5 +7,9 @@
         <a href="{% url 'gyms:gyms_details' trainer.gym.id %}"> Тренер спортклуба {{ trainer.gym.name }}</a>
     </h2>
     <p>{{ trainer.description }}</p>
-    <p> Стоимость персональной тренировки — {{ trainer.price }} р.</p>
+    <p> Стоимость недельной тренировки — {{ trainer.price }} р.</p>
+    <form action="{% url 'gyms:subscription_trainer' trainer.id %}" method="post" style="margin: 0 0 50px 0">
+        {% csrf_token %}
+        <input type="submit" value="преобрести">
+    </form>
 {% endblock %}

@@ -6,9 +6,12 @@
         <h2> Ваш логин | {{ profile.user.username|default:"Пусто" }}</h2>
         <h2>Имя фамилия | {{ profile.user.first_name }} {{ profile.user.last_name|default:"Пусто" }}</h2>
         <h2>Почта | {{ profile.user.email|default:"Пусто" }}</h2>
-        <h3> Абонемент в тренажерный зал до {{ permission_1.subscription_end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
-        <h3> Абонемент в кроссфит до {{ permission_2.subscription_end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
+        <h3> Абонемент в тренажерный зал {{ permission_1.gym_name }} до {{ permission_1.end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
+        <h3> Абонемент в кроссфит до {{ permission_2.end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
+        <h3> Личный тренер {{ permission_3.subscription_name }} до {{ permission_3.end_date|date:"d.m.Y"|default:"Пусто" }}</h3>
+        <a href="{% url 'users:report' %}">отчет</a>
         <a href="{% url 'users:update_profile' %}">Изменить профиль</a>
+
     </div>
     <form action="{% url 'users:logout' %}?next={{ '/' }}" method="post">
         {% csrf_token %}

@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 
 # Create your models here.
@@ -19,8 +20,12 @@ class Trainer(models.Model):
     description = models.TextField()
     price = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name} - {self.gym}'
+
 
 class Service(models.Model):
+    gym = models.ManyToManyField(Gym, related_name='servicex')
     name = models.CharField(max_length=50)
     description = models.TextField()
 
@@ -29,7 +34,7 @@ class Service(models.Model):
 
 
 class Subscription(models.Model):
-    service = models.ForeignKey(Service, related_name='service', on_delete=models.CASCADE)
+    service = models.ForeignKey(Service, related_name='aboniment', on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     description = models.TextField()
     subscription_period = models.IntegerField(default=0)

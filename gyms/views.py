@@ -30,20 +30,23 @@ def gyms(request: HttpRequest):
         'gym_list': objects})
 
 
+def gyms_details(request, gym_id):
+    gym = Gym.objects.get(id=gym_id)
+    service = gym.servicex.all()
+    request.session["test"] = gym_id
+    return render(request, 'gyms/gyms_details.html', {
+        'gym': get_object_or_404(Gym, id=gym_id), 'service_list': service})
+
+
 def trainer(request: HttpRequest):
     objects_list = Trainer.objects.all()
-    paginator = Paginator(objects_list, 5)
+    paginator = Paginator(objects_list, 6)
 
     page = request.GET.get('page')
     objects = paginator.get_page(page)
 
     return render(request, 'gyms/trainer.html', {
         'trainer_list': objects})
-
-
-def gyms_details(request, gym_id):
-    return render(request, 'gyms/gyms_details.html', {
-        'gym': get_object_or_404(Gym, id=gym_id)})
 
 
 def trainer_details(request, trainer_id):
@@ -57,37 +60,56 @@ def service(request: HttpRequest):
         'service_list': context})
 
 
-def service_details(request: HttpRequest, service_id):
-    context = Subscription.objects.filter(service=service_id).order_by('subscription_period')
+def service_details(request: HttpRequest, gym_id: int, service_id: int):
+    service = Service.objects.get(id=service_id)
+    x = service.aboniment.all()
+    gym = Gym.objects.get(id=gym_id)
     return render(request, 'gyms/service_details.html', {
-        'subscription_list': context})
+        'service_list': x, 'gym': gym})
 
 
 @login_required
-def subscription_view(request, subscription_id):
+def subscription_view(request, gym_id: int, service_id: int, subscription_id: int):
     subscription = get_object_or_404(Subscription, id=subscription_id)
     profile = request.user.profile
+    gym = Gym.objects.get(id=gym_id)
 
-    today = date.today()
-    next_month = today + relativedelta(months=1)
-    test = date(next_month.year, next_month.month, next_month.day)
-
-    permission = (Permission.objects.filter(profile=profile, service_name=subscription.service.name).first()
-                  or Permission.objects.create(profile=profile, service_name=subscription.service.name,
-                                               subscription_end_date=date.today()))
+    permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
+                                           subscription_name=subscription.name, gym_name=gym.name,
+                                           start_date=date.today(), end_date=date.today())
 
     match subscription.subscription_period:
         case 7:
-            permission.subscription_end_date += relativedelta(days=7)
+            permission.end_date += relativedelta(days=7)
         case 30:
-            permission.subscription_end_date += relativedelta(months=1)
+            permission.end_date += relativedelta(months=1)
         case 180:
-            permission.subscription_end_date += relativedelta(months=6)
+            permission.end_date += relativedelta(months=6)
         case 360:
-            permission.subscription_end_date += relativedelta(months=12)
+            permission.end_date += relativedelta(months=12)
     permission.save()
 
     messages.success(
         request, f'Вы успешно продлили абонемент: {subscription.service.name}')
+
+    return redirect('users:profile')
+
+
+
+@login_required
+def subscription_trainer(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    profile = request.user.profile
+
+    permission = Permission.objects.create(profile=profile, service_name='Персональные тренировки',
+                                           subscription_name= f'{trainer.first_name} {trainer.last_name}',
+                                           gym_name=trainer.gym.name,
+                                           start_date=date.today(), end_date=date.today())
+
+    permission.end_date += relativedelta(days=7)
+    permission.save()
+
+    messages.success(
+        request, f'Вы успешно продлили абонемент')
 
     return redirect('users:profile')

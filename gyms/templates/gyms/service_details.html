@@ -1,14 +1,14 @@
 {% extends 'gyms/base.html' %}
 
 {% block body %}
-    {% if subscription_list %}
-        {% for subscription in subscription_list %}
-            <h1> Абонемент </h1>
+    {% if service_list %}
+        {% for subscription in service_list %}
+            <h1> Абонемент в {{ gym.name }} </h1>
             <img src="https://arena-swim.ru/wp-content/uploads/b/b/9/bb9e699be3327a238438c14509aafc35.jpeg" width="1000vh" height="600vw"/>
             <h3 style="margin: 5px"> {{ subscription.name }}</h3>
             <p style="margin: 0 0 10px 0"> {{ subscription.description }}</p>
 
-            <form action="{% url 'gyms:subscription_view' subscription.id %}" method="post" style="margin: 0 0 50px 0">
+            <form action="{% url 'gyms:subscription_view' gym_id=gym.id service_id=subscription.service.id subscription_id=subscription.id %}" method="post" style="margin: 0 0 50px 0">
                 {% csrf_token %}
                 <input type="submit" value="преобрести за {{ subscription.price }}">
             </form>

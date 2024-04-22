@@ -23,6 +23,15 @@
     <p>{{ gym.Address }}</p>
     <p>{{ gym.Contacts }}</p>
 
+    <h1> Услуги </h1>
+    {% for services in service_list %}
+        <a href="{% url 'gyms:service_details' gym_id=gym.id service_id=services.id %}">
+            <img src="https://arena-swim.ru/wp-content/uploads/b/b/9/bb9e699be3327a238438c14509aafc35.jpeg" width="1000vh" height="600vw"/>
+            <h1 style="margin: 5px"> {{ services.name }}</h1>
+            <p style="margin: 0 0 50px 0"> {{ services.description }}</p>
+        </a>
+    {% endfor %}
+
     <h1> Тренеры </h1>
     <div class="grid">
         {% for trainer in gym.trainer.all %}

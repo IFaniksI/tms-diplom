@@ -3,16 +3,13 @@
 {% block body %}
     {% if gym_list %}
         <h1> Спортзалы </h1>
-
         <span>
             {% if gym_list.has_previous %}
                 <a href="?page={{ gym_list.previous_page_number }}">предыдущая</a>
             {% endif %}
-
             <span class="current">
                 {{ gym_list.number }} из {{ gym_list.paginator.num_pages }}
             </span>
-
             {% if gym_list.has_next %}
                 <a href="?page={{ gym_list.next_page_number }}">следующая</a>
             {% endif %}
