@@ -1,0 +1,26 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    <div style="width: 200px;">
+        <form action="{% url 'users:update_profile' %}" method="post">
+            {% csrf_token %}
+            <label>
+                Логин
+                <input type="text" name="username" value="{{ user.username }}" />
+            </label>
+            <label>
+                Имя
+                <input type="text" name="first_name" value="{{ user.first_name }}" />
+            </label>
+            <label>
+                Фамилия
+                <input type="text" name="last_name" value="{{ user.last_name }}" />
+            </label>
+            <label>
+                Электронная почта
+                <input type="email" name="email" value="{{ user.email }}" />
+            </label>
+            <input type="submit" value="сохранить" id="button"/>
+        </form>
+    </div>
+{% endblock %}

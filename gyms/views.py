@@ -43,7 +43,7 @@ def service(request: HttpRequest):
 
 
 def service_details(request: HttpRequest, service_id):
-    context = Subscription.objects.filter(service=service_id)
+    context = Subscription.objects.filter(service=service_id).order_by('subscription_period')
     return render(request, 'gyms/service_details.html', {
         'subscription_list': context})
 
@@ -57,11 +57,9 @@ def subscription_view(request, subscription_id):
     next_month = today + relativedelta(months=1)
     test = date(next_month.year, next_month.month, next_month.day)
 
-    permission = Permission.objects.filter(service_name=subscription.service.name, profile=profile).first()
-
-    if not permission:
-        permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
-                                               subscription_end_date=date.today())
+    permission = (Permission.objects.filter(profile=profile, service_name=subscription.service.name).first()
+                  or Permission.objects.create(profile=profile, service_name=subscription.service.name,
+                                               subscription_end_date=date.today()))
 
     match subscription.subscription_period:
         case 7:
