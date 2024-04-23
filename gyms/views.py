@@ -50,8 +50,11 @@ def trainer(request: HttpRequest):
 
 
 def trainer_details(request, trainer_id):
+    trainer = get_object_or_404(Trainer, id=trainer_id)
+    if trainer.image.url:
+        print(trainer.image.url)
     return render(request, 'gyms/trainer_details.html', {
-        'trainer': get_object_or_404(Trainer, id=trainer_id)})
+        'trainer':trainer})
 
 
 def service(request: HttpRequest):
@@ -62,6 +65,10 @@ def service(request: HttpRequest):
 
 def service_details(request: HttpRequest, gym_id: int, service_id: int):
     service = Service.objects.get(id=service_id)
+    if service.name == 'Персональные тренировки':
+        gym = Gym.objects.get(id=gym_id)
+        trainer = gym.trainer.all()
+        return render(request, 'gyms/trainer.html', {'trainer_list': trainer})
     x = service.aboniment.all()
     gym = Gym.objects.get(id=gym_id)
     return render(request, 'gyms/service_details.html', {

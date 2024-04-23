@@ -1,0 +1,26 @@
+{% extends 'gyms/base.html' %}
+
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Спортклуб</th>
+                <th>Услуга</th>
+                <th>Абонемент</th>
+                <th>Дата начала</th>
+                <th>Дата начала</th>
+            </tr>
+        </thead>
+        {% for report in report_list %}
+            <tbody>
+                <tr><td>{{ report.gym_name }}</td>
+                    <td>{{ report.service_name }}</td>
+                    <td>{{ report.subscription_name }}</td>
+                    <td>{{ report.start_date|date:"d.m.Y" }}</td>
+                    <td>{{ report.end_date|date:"d.m.Y" }}</td>
+                </tr>
+            </tbody>
+        {% endfor %}
+
+    </table>
+{% endblock %}

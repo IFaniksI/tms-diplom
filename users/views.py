@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect, get_object_or_404
 
-from users.models import Profile, Permission
+from users.models import Profile, Permission, Feedback
 from gyms.models import Subscription, Trainer
 
 from datetime import timedelta, date
@@ -51,28 +51,6 @@ def profile(request):
 
 @login_required
 def update_profile(request):
-    '''
-    profile = request.user.profile
-
-    if request.method == 'GET':
-        return render(request, 'users/update_profile.html', {'profile': profile})
-
-    if request.method == 'POST':
-        username: str = request.POST.get('username')
-        first_name: str = request.POST.get('first_name')
-        last_name: str = request.POST.get('last_name')
-        email: str = request.POST.get('email')
-
-        profile.user.username = username
-        profile.user.first_name = first_name
-        profile.user.last_name = last_name
-        profile.user.email = email
-        profile.user.save()
-
-        messages.success(request, 'Ваш профиль был успешно обновлен!')
-        return redirect('users:profile')
-    '''
-
     if request.method == 'POST':
         user_form = UserUpdateForm(request.POST, instance=request.user)
         if user_form.is_valid():
@@ -93,21 +71,3 @@ def report(request):
     report_list = Permission.objects.filter(profile=profile)
     context = {'report_list': report_list}
     return render(request, 'users/report.html', context)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

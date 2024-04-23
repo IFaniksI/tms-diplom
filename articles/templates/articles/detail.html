@@ -1,7 +1,8 @@
 {% extends 'gyms/base.html' %}
+{% load static %}
 
 {% block body %}
     <h1>{{ article.title }}</h1>
-    <img src="https://sport-marafon.ru/upload/blog/img/13/1655367-03.jpg" width="800vh" height="600vw"/>
+    <img src="{% static article.image.url %}" width="800vh" height="600vw"/>
     <p>{{ article.text }}</p>
 {% endblock %}

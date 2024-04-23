@@ -1,8 +1,9 @@
 {% extends 'gyms/base.html' %}
+{% load static %}
 
 {% block body %}
     <h1>{{ trainer.first_name }} {{ trainer.last_name }} </h1>
-    <img src="https://hips.hearstapps.com/hmg-prod/images/esq040124robertdowneyjrdig-011-660ece7727c8f.jpg?resize=980:*" width="200vw" height="250vh"/>
+    <img src="{% static trainer.image.url %}" width="200vw" height="250vh"/>
     <h2>
         <a href="{% url 'gyms:gyms_details' trainer.gym.id %}"> Тренер спортклуба {{ trainer.gym.name }}</a>
     </h2>

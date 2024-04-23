@@ -22,3 +22,6 @@ class Permission(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
 
+
+class Feedback(models.Model):
+    pass

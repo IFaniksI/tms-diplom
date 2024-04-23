@@ -23,13 +23,7 @@
                     <a href="{% url 'gyms:service' %}">Услуги</a>
                 </li>
                 <li>
-                   <a href="{% url 'gyms:gyms' %}">Галерея</a>
-                </li>
-                <li>
                     <a href="{% url 'articles:index' %}">Блог</a>
-                </li>
-                <li>
-                    <a href="{% url 'gyms:gyms' %}">Отзывы</a>
                 </li>
                 <li>
                     <a href="/admin/">Админ</a>
@@ -39,8 +33,8 @@
         <div>
             <form action="{% url 'gyms:gyms' %}" method="get">
                 {% csrf_token %}
-                <input class="search" type="text" name="search" placeholder="Search">
-                    <button type="submit" id="button">Search</button>
+                <input class="search" type="text" name="Поис" placeholder="спортзалы">
+                    <button type="submit" id="button">найти</button>
             </form>
         </div>
         <div>

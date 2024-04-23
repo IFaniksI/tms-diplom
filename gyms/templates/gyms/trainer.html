@@ -1,4 +1,5 @@
 {% extends 'gyms/base.html' %}
+{% load static %}
 
 {% block style %}
     .grid {
@@ -34,7 +35,7 @@
             {% for trainer in trainer_list %}
                 <div>
                     <a href="{% url 'gyms:trainer_details' trainer.id %}">
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/esq040124robertdowneyjrdig-011-660ece7727c8f.jpg?resize=980:*" width="250vh" height="300vw"/>
+                        <img src="{% static trainer.image.url %}" width="250vh" height="300vw"/>
                         <h2 style="margin: 5px"> {{ trainer.first_name }} {{ trainer.last_name  }} </h2>
                         <p style="margin: 0 0 50px 0"> Тренер спортклуба {{ trainer.gym.name }} </p>
                     </a>
