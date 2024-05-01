@@ -81,9 +81,18 @@ def subscription_view(request, gym_id: int, service_id: int, subscription_id: in
     profile = request.user.profile
     gym = Gym.objects.get(id=gym_id)
 
-    permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
-                                           subscription_name=subscription.name, gym_name=gym.name,
-                                           start_date=date.today(), end_date=date.today())
+    permission_1 = Permission.objects.filter(profile=profile, service_name=subscription.service.name) \
+        .order_by('-end_date') \
+        .first()
+
+    if permission_1:
+        permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
+                                               subscription_name=subscription.name, gym_name=gym.name,
+                                               start_date=permission_1.end_date, end_date=permission_1.end_date)
+    else:
+        permission = Permission.objects.create(profile=profile, service_name=subscription.service.name,
+                                               subscription_name=subscription.name, gym_name=gym.name,
+                                               start_date=date.today(), end_date=date.today())
 
     match subscription.subscription_period:
         case 7:
@@ -102,16 +111,26 @@ def subscription_view(request, gym_id: int, service_id: int, subscription_id: in
     return redirect('users:profile')
 
 
-
 @login_required
 def subscription_trainer(request, trainer_id):
     trainer = get_object_or_404(Trainer, id=trainer_id)
     profile = request.user.profile
 
-    permission = Permission.objects.create(profile=profile, service_name='Персональные тренировки',
-                                           subscription_name= f'{trainer.first_name} {trainer.last_name}',
-                                           gym_name=trainer.gym.name,
-                                           start_date=date.today(), end_date=date.today())
+    permission_1 = Permission.objects.filter(profile=profile, service_name='Персональные тренировки') \
+        .order_by('-end_date') \
+        .first()
+
+    if permission_1:
+        permission = Permission.objects.create(profile=profile, service_name='Персональные тренировки',
+                                               subscription_name=f'{trainer.first_name} {trainer.last_name}',
+                                               gym_name=trainer.gym.name,
+                                               start_date=permission_1.end_date, end_date=permission_1.end_date)
+
+    else:
+        permission = Permission.objects.create(profile=profile, service_name='Персональные тренировки',
+                                               subscription_name=f'{trainer.first_name} {trainer.last_name}',
+                                               gym_name=trainer.gym.name,
+                                               start_date=date.today(), end_date=date.today())
 
     permission.end_date += relativedelta(days=7)
     permission.save()

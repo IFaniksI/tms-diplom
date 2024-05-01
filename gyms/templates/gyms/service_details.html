@@ -3,8 +3,8 @@
 
 {% block body %}
     {% if service_list %}
+        <h1> {{ subscription.service }} в {{ gym.name }} </h1>
         {% for subscription in service_list %}
-            <h1> Абонемент в {{ gym.name }} </h1>
             <img src="{% static subscription.image.url %}" width="1000vh" height="600vw"/>
             <h3 style="margin: 5px"> {{ subscription.name }}</h3>
             <p style="margin: 0 0 10px 0"> {{ subscription.description }}</p>
